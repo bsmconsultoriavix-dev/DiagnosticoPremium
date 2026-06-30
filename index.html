@@ -1,0 +1,2778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Financeiro · Tudo em Dia</title>
+<meta name="description" content="Descubra em 10 minutos onde estão os pontos cegos das finanças da sua empresa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #C98080;
+    --rose-deep: #A8625F;
+    --rose-soft: #E5C0BE;
+    --cream: #FAF6F1;
+    --cream-warm: #F2EBE0;
+    --ink: #2D2424;
+    --ink-soft: #5A4848;
+    --mute: #8A7878;
+    --gold: #C9A45C;
+    --gold-deep: #A8843E;
+    --critical: #B5564B;
+    --attention: #C9A45C;
+    --good: #7A9070;
+    --excellent: #4F6B47;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  .app {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen {
+    flex: 1;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ------- WELCOME SCREEN ------- */
+
+  #screen-welcome {
+    background: var(--rose);
+    color: var(--cream);
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100dvh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #screen-welcome.active { display: flex; }
+
+  .welcome-inner {
+    width: 100%;
+    max-width: 560px;
+    padding: 48px 28px;
+    text-align: center;
+  }
+
+  .welcome-logo {
+    width: 220px;
+    max-width: 70%;
+    margin: 0 auto 32px;
+    display: block;
+    opacity: 0.97;
+  }
+
+  .welcome-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    font-weight: 500;
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
+
+  .welcome-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(36px, 8vw, 56px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+
+  .welcome-title em {
+    font-style: italic;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .welcome-text {
+    font-size: 16px;
+    line-height: 1.65;
+    margin-bottom: 36px;
+    opacity: 0.92;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .welcome-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 40px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  .welcome-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .welcome-meta-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .welcome-meta-label {
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+  }
+
+  /* ------- BUTTONS ------- */
+
+  .btn {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 16px 36px;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-height: 52px;
+    line-height: 1.2;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .btn-primary:hover { background: var(--gold-deep); color: var(--cream); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary:disabled:hover { background: var(--gold); color: var(--ink); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink-soft);
+  }
+
+  .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+  .btn-rose {
+    background: var(--rose-deep);
+    color: var(--cream);
+  }
+
+  .btn-rose:hover { background: var(--ink); }
+
+  /* ------- QUALIFICATION SCREEN ------- */
+
+  .qual-header {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .qual-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--rose-deep);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .qual-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(28px, 5.5vw, 38px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .qual-title em { font-style: italic; }
+
+  .qual-desc {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .qual-field {
+    margin-bottom: 32px;
+  }
+
+  .qual-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .qual-label .optional {
+    font-weight: 400;
+    color: var(--mute);
+    font-size: 12px;
+    margin-left: 6px;
+  }
+
+  .qual-input {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    background: var(--cream-warm);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+  }
+
+  .qual-input:focus {
+    outline: none;
+    border-color: var(--rose);
+    background: #fff;
+  }
+
+  .qual-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .qual-option {
+    background: var(--cream-warm);
+    border: 1px solid transparent;
+    padding: 14px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+    font-family: inherit;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .qual-option:hover { background: var(--rose-soft); }
+
+  .qual-option.selected {
+    background: var(--rose);
+    color: var(--cream);
+    border-color: var(--rose-deep);
+  }
+
+  /* ------- QUESTION SCREEN ------- */
+
+  .progress-bar {
+    height: 3px;
+    background: var(--cream-warm);
+    position: relative;
+    margin: 0 -24px 40px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--rose);
+    transition: width 0.4s ease;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 28px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--mute);
+  }
+
+  .category-header {
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--cream-warm);
+  }
+
+  .category-number {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 14px;
+    color: var(--rose);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .category-name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(28px, 5vw, 38px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .category-desc {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .question {
+    margin-bottom: 36px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--cream-warm);
+  }
+
+  .question:last-of-type { border-bottom: none; }
+
+  .question-text {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* vertical scale - one option per row */
+  .scale {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .scale-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--cream-warm);
+    border: 1px solid transparent;
+    padding: 14px 18px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+    color: var(--ink);
+    text-align: left;
+    width: 100%;
+    min-height: 56px;
+  }
+
+  .scale-option:hover { background: var(--rose-soft); }
+
+  .scale-option.selected {
+    background: var(--rose);
+    color: var(--cream);
+    border-color: var(--rose-deep);
+  }
+
+  .scale-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.05);
+    color: var(--ink-soft);
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.15s ease;
+  }
+
+  .scale-option.selected .scale-num {
+    background: rgba(255,255,255,0.25);
+    color: var(--cream);
+  }
+
+  .scale-label {
+    flex: 1;
+    font-size: 14.5px;
+    line-height: 1.35;
+  }
+
+  .nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 40px;
+    justify-content: space-between;
+  }
+
+  .nav .btn { flex: 1; max-width: 200px; }
+  .nav .btn-ghost { flex: 0 0 auto; }
+
+  /* ------- RESULTS ------- */
+
+  .result-header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--cream-warm);
+  }
+
+  .result-greeting {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--rose-deep);
+    margin-bottom: 8px;
+  }
+
+  .result-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--rose-deep);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .result-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(32px, 6vw, 44px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+
+  .result-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .score-big {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+  }
+
+  .score-big .of {
+    color: var(--mute);
+    font-size: 32px;
+    font-weight: 300;
+  }
+
+  .score-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 1px;
+  }
+
+  .score-label.critical { background: var(--critical); color: var(--cream); }
+  .score-label.attention { background: var(--attention); color: var(--ink); }
+  .score-label.good { background: var(--good); color: var(--cream); }
+  .score-label.excellent { background: var(--excellent); color: var(--cream); }
+
+  /* ------- MONEY IMPACT (HERO) ------- */
+
+  .money-impact {
+    text-align: center;
+    margin: 8px 0 48px;
+    padding: 0 8px;
+  }
+
+  .money-impact-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--mute);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .money-impact-value {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(52px, 13vw, 72px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+
+  .money-impact-subtitle {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-style: italic;
+    font-size: clamp(15px, 4vw, 18px);
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+
+  .money-impact-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 460px;
+    margin: 22px auto 0;
+    line-height: 1.6;
+  }
+
+  .money-impact-ok {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--rose-deep);
+    margin: 12px 0;
+  }
+
+  /* ------- SCORE SUMMARY ROW ------- */
+
+  .result-score-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    max-width: 560px;
+    margin: 0 auto 40px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--cream-warm);
+    border-bottom: 1px solid var(--cream-warm);
+    flex-wrap: wrap;
+  }
+
+  .result-score-row-label {
+    font-size: 12px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .result-score-row-value {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .result-score-row-value .of {
+    color: var(--mute);
+    font-size: 16px;
+  }
+
+  /* ------- BARS ------- */
+
+  .bars-section {
+    margin: 0 0 48px;
+  }
+
+  .bars-section-title {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--mute);
+    margin: 0 0 24px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .bars-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .bar-row-label {
+    flex: 0 0 140px;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .bar-row-track {
+    flex: 1;
+    height: 14px;
+    background: var(--cream-warm);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar-row-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .bar-row-fill.critical { background: var(--critical); }
+  .bar-row-fill.attention { background: var(--attention); }
+  .bar-row-fill.good { background: var(--good); }
+  .bar-row-fill.excellent { background: var(--excellent); }
+
+  .bar-row-score {
+    flex: 0 0 34px;
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 14px;
+    color: var(--mute);
+    text-align: right;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 480px) {
+    .bar-row-label { flex: 0 0 108px; font-size: 13px; }
+    .bar-row { gap: 10px; }
+    .money-impact-desc { font-size: 13px; }
+  }
+
+  .result-summary {
+    text-align: center;
+    margin-bottom: 56px;
+    padding: 0 8px;
+  }
+
+  .result-summary p {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ------- CHAPTERS ------- */
+
+  .chapter {
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--cream-warm);
+  }
+
+  .chapter:last-of-type { border-bottom: none; }
+
+  .chapter-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .chapter-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 14px;
+    color: var(--rose);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  .chapter-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(22px, 4vw, 28px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .chapter-score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .chapter-score-badge {
+    text-transform: uppercase;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 1px;
+  }
+
+  .chapter-score-badge.critical { background: var(--critical); color: var(--cream); }
+  .chapter-score-badge.attention { background: var(--attention); color: var(--ink); }
+  .chapter-score-badge.good { background: var(--good); color: var(--cream); }
+  .chapter-score-badge.excellent { background: var(--excellent); color: var(--cream); }
+
+  .chapter-score-num {
+    color: var(--mute);
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 16px;
+  }
+
+  .chapter-body {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+
+  .chapter-body p { margin-bottom: 12px; }
+
+  .actions-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--rose-deep);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .actions-list {
+    list-style: none;
+    counter-reset: action;
+  }
+
+  .actions-list li {
+    counter-increment: action;
+    padding: 14px 0 14px 44px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.55;
+    border-top: 1px solid var(--cream-warm);
+    color: var(--ink);
+  }
+
+  .actions-list li::before {
+    content: counter(action, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 14px;
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 14px;
+    color: var(--rose);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  /* ------- CTA ------- */
+
+  .cta {
+    background: var(--rose);
+    color: var(--cream);
+    margin: 64px -24px 0;
+    padding: 56px 32px;
+    text-align: center;
+  }
+
+  .cta-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    margin-bottom: 16px;
+    opacity: 0.85;
+    font-weight: 500;
+  }
+
+  .cta-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(26px, 5vw, 34px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .cta-title em { font-style: italic; }
+
+  .cta-text {
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.95;
+  }
+
+  .cta .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* ------- PREMIUM CTA ------- */
+
+  .premium-cta {
+    background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%);
+    color: var(--cream);
+    margin: 0 -24px 32px;
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .premium-cta::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 160px;
+    height: 160px;
+    background: var(--gold);
+    opacity: 0.12;
+    border-radius: 50%;
+  }
+
+  .premium-cta-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .premium-cta-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(24px, 5vw, 30px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .premium-cta-title em { font-style: italic; }
+
+  .premium-cta-lede {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.95;
+    margin-bottom: 4px;
+    max-width: 480px;
+    position: relative;
+  }
+
+  .premium-features {
+    list-style: none;
+    margin: 22px 0 26px;
+    padding: 0;
+    position: relative;
+  }
+
+  .premium-features li {
+    padding: 7px 0 7px 28px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.95;
+  }
+
+  .premium-features li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .premium-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 22px;
+    position: relative;
+  }
+
+  .premium-price {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--gold);
+  }
+
+  .premium-price-note {
+    font-size: 12px;
+    opacity: 0.85;
+  }
+
+  .premium-cta-actions { position: relative; }
+
+  .premium-cta .btn-primary {
+    min-width: 240px;
+  }
+
+  /* ------- PREMIUM MODAL ------- */
+
+  .premium-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 36, 36, 0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+
+  .premium-modal.active {
+    display: flex;
+    animation: fadeIn 0.25s ease-out;
+  }
+
+  .premium-modal-content {
+    background: var(--cream);
+    border-radius: 4px;
+    max-width: 460px;
+    width: 100%;
+    padding: 36px 28px;
+    max-height: 92vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .premium-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--mute);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .premium-modal-close:hover { color: var(--ink); }
+
+  .premium-modal-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--rose-deep);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .premium-modal-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+
+  .premium-modal-desc {
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  .premium-form-field {
+    margin-bottom: 14px;
+  }
+
+  .premium-form-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .premium-form-field input {
+    width: 100%;
+    padding: 13px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--cream-warm);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+  }
+
+  .premium-form-field input:focus {
+    outline: none;
+    border-color: var(--rose);
+    background: #fff;
+  }
+
+  .premium-form-error {
+    color: var(--critical);
+    font-size: 12px;
+    margin-top: 6px;
+    display: none;
+  }
+
+  .premium-form-error.visible { display: block; }
+
+  .premium-form-submit {
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .premium-modal-summary {
+    background: var(--cream-warm);
+    padding: 16px 18px;
+    border-radius: 3px;
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .premium-modal-summary-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .premium-modal-summary-value {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .premium-disclaimer {
+    font-size: 11.5px;
+    color: var(--mute);
+    margin-top: 14px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* ------- PREMIUM UNLOCKED ------- */
+
+  .premium-unlocked {
+    background: var(--cream-warm);
+    border-left: 3px solid var(--gold);
+    margin: 0 -24px 32px;
+    padding: 32px;
+  }
+
+  .premium-unlocked-eyebrow {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--gold-deep);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .premium-unlocked-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .premium-unlocked-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    line-height: 1.55;
+  }
+
+  .premium-unlocked .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .premium-loading {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ------- FOOTER ------- */
+
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--mute);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-brand {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--rose-deep);
+    margin-bottom: 4px;
+  }
+
+  /* ------- RESPONSIVE ------- */
+
+  @media (min-width: 720px) {
+    .screen { padding: 48px 32px 80px; }
+    .progress-bar { margin: 0 -32px 48px; }
+    .cta { margin: 80px -32px 0; padding: 72px 48px; }
+  }
+
+  @media (max-width: 480px) {
+    .welcome-meta { gap: 20px; }
+    .nav { flex-direction: column-reverse; }
+    .nav .btn { max-width: 100%; width: 100%; }
+    .qual-options { grid-template-columns: 1fr; }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- WELCOME -->
+  <section id="screen-welcome" class="screen active">
+    <div class="welcome-inner">
+      <img src="data:image/png;base64,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" alt="Tudo em Dia" class="welcome-logo">
+      <div class="welcome-eyebrow">Diagnóstico Financeiro</div>
+      <h1 class="welcome-title">Um retrato claro<br><em>da saúde financeira</em><br>da sua empresa.</h1>
+      <p class="welcome-text">Sem jargão, sem complicação. Em 10 minutos você descobre onde estão os pontos cegos que estão drenando seu lucro — e o que fazer com cada um.</p>
+
+      <div class="welcome-meta">
+        <div class="welcome-meta-item">
+          <span class="welcome-meta-num">8</span>
+          <span class="welcome-meta-label">áreas</span>
+        </div>
+        <div class="welcome-meta-item">
+          <span class="welcome-meta-num">40</span>
+          <span class="welcome-meta-label">perguntas</span>
+        </div>
+        <div class="welcome-meta-item">
+          <span class="welcome-meta-num">10'</span>
+          <span class="welcome-meta-label">minutos</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="App.start()">Começar diagnóstico</button>
+    </div>
+  </section>
+
+  <!-- QUALIFICATION -->
+  <section id="screen-qualification" class="screen">
+    <div class="qual-header">
+      <div class="qual-eyebrow">Antes de começar</div>
+      <h2 class="qual-title">Só alguns dados<br><em>pra personalizar</em></h2>
+      <p class="qual-desc">Essas informações me ajudam a contextualizar seu resultado e, caso você queira conversar depois, já chego preparado(a).</p>
+    </div>
+
+    <div class="qual-field">
+      <label class="qual-label" for="qualName">Como prefere ser chamado(a)? <span class="optional">opcional</span></label>
+      <input type="text" id="qualName" class="qual-input" placeholder="Seu primeiro nome" maxlength="40" oninput="App.updateQual()">
+    </div>
+
+    <div class="qual-field">
+      <label class="qual-label">Qual o faturamento médio mensal da empresa?</label>
+      <div class="qual-options" id="qualRevenueOptions"></div>
+    </div>
+
+    <div class="qual-field">
+      <label class="qual-label">Há quanto tempo a empresa existe? <span class="optional">opcional</span></label>
+      <div class="qual-options" id="qualYearsOptions"></div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="App.go('welcome')">Voltar</button>
+      <button class="btn btn-primary" id="qualNext" onclick="App.startQuestions()" disabled>Começar perguntas</button>
+    </div>
+  </section>
+
+  <!-- QUESTION -->
+  <section id="screen-question" class="screen">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-meta">
+      <span id="progressLabel">Parte 1 de 8</span>
+      <span id="progressCount">0 de 40 respondidas</span>
+    </div>
+    <div id="categoryContent"></div>
+    <div class="nav">
+      <button class="btn btn-ghost" id="btnBack" onclick="App.prev()">Voltar</button>
+      <button class="btn btn-primary" id="btnNext" onclick="App.next()">Próxima parte</button>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="screen-result" class="screen">
+    <div id="resultContent"></div>
+  </section>
+
+  <!-- PREMIUM MODAL -->
+  <div id="premiumModal" class="premium-modal" onclick="if(event.target===this) App.hidePremiumModal()">
+    <div class="premium-modal-content">
+      <button class="premium-modal-close" onclick="App.hidePremiumModal()" aria-label="Fechar">×</button>
+      <div class="premium-modal-eyebrow">Diagnóstico Premium</div>
+      <h2 class="premium-modal-title">Quase lá. Só preciso de duas informações.</h2>
+      <p class="premium-modal-desc">Em segundos você recebe o relatório completo em PDF + uma trilha de 5 e-mails implementando as ações prioritárias do seu diagnóstico.</p>
+
+      <div class="premium-modal-summary">
+        <span class="premium-modal-summary-label">Investimento único</span>
+        <span class="premium-modal-summary-value">R$ 67</span>
+      </div>
+
+      <div class="premium-form-field">
+        <label for="premiumName">Seu nome</label>
+        <input type="text" id="premiumName" placeholder="Como devo te chamar?" maxlength="60" autocomplete="given-name">
+        <div class="premium-form-error" id="premiumNameError">Por favor, informe seu nome.</div>
+      </div>
+
+      <div class="premium-form-field">
+        <label for="premiumEmail">Seu melhor e-mail</label>
+        <input type="email" id="premiumEmail" placeholder="email@exemplo.com" maxlength="120" autocomplete="email">
+        <div class="premium-form-error" id="premiumEmailError">E-mail inválido. Verifique e tente novamente.</div>
+      </div>
+
+      <button class="btn btn-primary premium-form-submit" onclick="App.submitPremiumForm()">
+        <span id="premiumSubmitText">Ir para o pagamento</span>
+      </button>
+
+      <p class="premium-disclaimer">Você será direcionado para a Hotmart, plataforma segura de pagamento. Após a confirmação, seu PDF estará disponível pra baixar nesta mesma página.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-brand">Tudo em Dia</div>
+    <div>Consultoria Financeira para Empreendedores</div>
+  </footer>
+
+</div>
+
+<script>
+// ============================================================
+// QUALIFICATION OPTIONS
+// ============================================================
+
+const REVENUE_RANGES = [
+  { id: 'r1', label: 'Até R$ 10 mil' },
+  { id: 'r2', label: 'R$ 10 mil a R$ 25 mil' },
+  { id: 'r3', label: 'R$ 25 mil a R$ 50 mil' },
+  { id: 'r4', label: 'R$ 50 mil a R$ 100 mil' },
+  { id: 'r5', label: 'R$ 100 mil a R$ 250 mil' },
+  { id: 'r6', label: 'Acima de R$ 250 mil' }
+];
+
+const YEARS_RANGES = [
+  { id: 'y1', label: 'Menos de 1 ano' },
+  { id: 'y2', label: '1 a 3 anos' },
+  { id: 'y3', label: '3 a 5 anos' },
+  { id: 'y4', label: 'Mais de 5 anos' }
+];
+
+// ============================================================
+// MONEY IMPACT CALCULATION
+// Midpoint of each revenue band (conservative on the lower end)
+// ============================================================
+
+const REVENUE_MIDPOINTS = {
+  'r1': 5000,    // Até R$ 10 mil → midpoint conservador
+  'r2': 17500,   // R$ 10 a 25 mil
+  'r3': 37500,   // R$ 25 a 50 mil
+  'r4': 75000,   // R$ 50 a 100 mil
+  'r5': 175000,  // R$ 100 a 250 mil
+  'r6': 350000   // Acima de R$ 250 mil (conservador)
+};
+
+// Per-category impact factor on revenue.
+// "critical" applies for crítico; "attention" is half-weight.
+// Based on typical patterns observed in PME consulting.
+const CATEGORY_IMPACT = {
+  'caixa':    { critical: 0.035, attention: 0.018 },  // 2-5% (erros, decisões ruins)
+  'custos':   { critical: 0.055, attention: 0.028 },  // 3-8% (desperdício, gastos invisíveis)
+  'preco':    { critical: 0.085, attention: 0.043 },  // 5-12% (mais alta - precificação errada)
+  'lucro':    { critical: 0.040, attention: 0.020 },  // 2-6% (decisões sem dados)
+  'folga':    { critical: 0.025, attention: 0.013 },  // 1-4% (juros, multas, oportunidades)
+  'dividas':  { critical: 0.030, attention: 0.015 },  // 1-5% (juros pagos)
+  'impostos': { critical: 0.090, attention: 0.045 },  // 3-15% (regime errado é grande)
+  'gestao':   { critical: 0.040, attention: 0.020 }   // 2-6% (planejamento ausente)
+};
+
+// Total cap as % of revenue (credibility limit)
+const MAX_IMPACT_PCT = 0.25;
+
+// ============================================================
+// PREMIUM / HOTMART CONFIG
+// ============================================================
+// Marcos: troque HOTMART_CHECKOUT_URL pelo link do produto criado na Hotmart.
+// O link tem o formato https://pay.hotmart.com/XXXXXXXXXXX
+// Na configuração do produto, defina como "Página de Obrigado" esta mesma URL
+// adicionando ?premium=success — ex.: https://seudominio.com/?premium=success
+// Assim o app detecta o retorno e libera o PDF automaticamente.
+
+const HOTMART_CHECKOUT_URL = 'https://hotm.io/axeCFsyY';
+const PREMIUM_PRICE_BRL = 67;
+
+// ============================================================
+// DATA: 8 categories × 5 questions
+// Each question has its own context-appropriate answer labels
+// Internally still scored 1-4
+// ============================================================
+
+const CATEGORIES = [
+  {
+    id: 'caixa',
+    name: 'Controle de Caixa',
+    desc: 'O básico do básico: saber o que entra, o que sai e quanto sobra.',
+    questions: [
+      {
+        text: 'Você sabe exatamente quanto dinheiro entrou na sua empresa no mês passado?',
+        options: ['Não sei', 'Tenho uma ideia vaga', 'Sei aproximadamente', 'Sei com precisão']
+      },
+      {
+        text: 'Você sabe exatamente quanto dinheiro saiu da sua empresa no mês passado?',
+        options: ['Não sei', 'Tenho uma ideia vaga', 'Sei aproximadamente', 'Sei com precisão']
+      },
+      {
+        text: 'Você registra todas as entradas e saídas em algum lugar (caderno, planilha, app)?',
+        options: ['Não registro nada', 'Registro só parte', 'Registro a maior parte', 'Registro tudo, sem falhar']
+      },
+      {
+        text: 'Você sabe agora, sem consultar ninguém, quanto tem para receber e quanto tem para pagar?',
+        options: ['Não faço ideia', 'Sei mais ou menos', 'Sei com boa precisão', 'Sei com exatidão']
+      },
+      {
+        text: 'Você confere o extrato do banco contra seus registros pelo menos uma vez por semana?',
+        options: ['Nunca confiro', 'Confiro de vez em quando', 'Confiro quase toda semana', 'Confiro religiosamente']
+      }
+    ],
+    diagnosis: {
+      critical: 'Sua empresa está sendo conduzida no escuro. Sem saber o que entra e o que sai, qualquer decisão vira chute — e na maioria das vezes, o chute custa caro. Esse é o problema número um que faz pequenas empresas quebrarem mesmo vendendo bem.',
+      attention: 'Você tem alguma noção, mas o controle ainda é informal demais. Quando o caixa aperta, você é pego de surpresa. Sistematizar isso muda o jogo em 30 dias.',
+      good: 'Você tem o controle do dia a dia. O próximo passo é transformar esse controle em previsão — saber não só o que aconteceu, mas o que vai acontecer.',
+      excellent: 'Controle de caixa é seu ponto forte. Use essa base para tomar decisões mais ambiciosas com segurança.'
+    },
+    actions: [
+      'Abra uma conta bancária só da empresa. Sem misturar com a pessoal. Nunca. Comece hoje.',
+      'Pegue um caderno ou planilha simples e anote toda entrada e saída por 30 dias seguidos.',
+      'Marque um horário fixo na semana (ex: toda sexta às 17h) para conferir extrato bancário × seus registros.'
+    ]
+  },
+  {
+    id: 'custos',
+    name: 'Custos',
+    desc: 'Quanto sua empresa custa para existir e quanto custa para entregar cada venda.',
+    questions: [
+      {
+        text: 'Você sabe quanto sua empresa gasta todo mês mesmo sem vender nada (aluguel, luz, internet, salários fixos)?',
+        options: ['Não sei', 'Tenho uma ideia vaga', 'Sei aproximadamente', 'Sei com precisão']
+      },
+      {
+        text: 'Você sabe quanto custa para produzir ou entregar uma única unidade do que você vende?',
+        options: ['Não sei', 'Tenho uma ideia', 'Sei na média', 'Sei com precisão por item']
+      },
+      {
+        text: 'Você separa de forma clara os gastos da empresa dos seus gastos pessoais?',
+        options: ['Está tudo misturado', 'Tento separar, mas falha', 'Separo na maior parte', 'Totalmente separado']
+      },
+      {
+        text: 'Você sabe a diferença entre custos que sobem com as vendas (matéria-prima) e custos que ficam fixos (aluguel)?',
+        options: ['Não sei a diferença', 'Já ouvi falar', 'Entendo bem', 'Entendo e aplico no dia a dia']
+      },
+      {
+        text: 'Você retira um pró-labore (seu salário) definido e regular, como qualquer funcionário receberia?',
+        options: ['Pego conforme dá', 'Pego, mas o valor varia muito', 'Pego um valor próximo do fixo', 'Pego valor fixo todo mês']
+      }
+    ],
+    diagnosis: {
+      critical: 'Sem conhecer os custos reais, fica matematicamente impossível saber se está lucrando. Muito empreendedor acha que está ganhando, mas está pagando do próprio bolso sem perceber. Pior: tomando decisões de preço, contratação e investimento com base em informação errada.',
+      attention: 'Você tem ideia dos custos principais, mas tem zonas nebulosas. O perigo está nos custos que você não enxerga — eles continuam acontecendo, e o lucro continua menor do que deveria.',
+      good: 'Você conhece bem a estrutura de custos. O próximo nível é começar a otimizar: identificar custos que podem ser cortados sem afetar a operação.',
+      excellent: 'Sua estrutura de custos está mapeada. Aproveite para fazer simulações: "e se eu aumentar 20% de venda, como meus custos se comportam?"'
+    },
+    actions: [
+      'Liste todos os custos fixos mensais em uma folha: aluguel, energia, água, internet, salários, pró-labore, contador, software. Some.',
+      'Pegue um produto/serviço seu e calcule o custo real de entregar uma unidade. Inclua mão de obra e materiais.',
+      'Defina hoje um valor fixo de pró-labore mensal. Você não é voluntário da sua empresa — quem trabalha precisa ser pago.'
+    ]
+  },
+  {
+    id: 'preco',
+    name: 'Preço e Margem',
+    desc: 'Como você define preço — e quanto realmente sobra de cada venda.',
+    questions: [
+      {
+        text: 'Você sabe explicar com clareza como chegou ao preço que cobra (não foi "olhando o concorrente")?',
+        options: ['Fui pelo concorrente', 'Tenho ideia, mas é incerto', 'Tenho um método', 'Tenho cálculo completo']
+      },
+      {
+        text: 'Você sabe quanto sobra de cada venda depois de descontar custos e impostos?',
+        options: ['Não sei', 'Tenho ideia vaga', 'Sei na média', 'Sei com precisão']
+      },
+      {
+        text: 'Você sabe quais dos seus produtos ou serviços dão mais lucro e quais dão menos?',
+        options: ['Não faço ideia', 'Acho que sei', 'Sei na maioria', 'Tenho mapeado por item']
+      },
+      {
+        text: 'Você tem uma regra clara para descontos (não dá no improviso para fechar venda)?',
+        options: ['Dou no improviso', 'Tenho um limite mental', 'Tenho regra parcial', 'Tenho regra escrita e clara']
+      },
+      {
+        text: 'Seu preço cobre todos os custos, incluindo impostos, seu trabalho e ainda gera lucro?',
+        options: ['Acho que não cobre tudo', 'Cobre o básico, sem lucro real', 'Cobre e gera algum lucro', 'Cobre tudo e gera lucro saudável']
+      }
+    ],
+    diagnosis: {
+      critical: 'Preço definido no chute é prejuízo certo. Se o cliente acha "barato", muitas vezes é porque está sendo barato para ele e caro para você. Precificação é a alavanca mais poderosa de lucro — um ajuste aqui pode mudar tudo, sem vender uma unidade a mais.',
+      attention: 'Você tem método em alguns produtos, mas não em todos. O risco é vender bem o que dá pouca margem e vender pouco o que daria muita.',
+      good: 'Você tem critério para preço. O próximo passo é refinar por linha de produto, identificando onde está sua "máquina de lucro".',
+      excellent: 'Sua precificação é estratégica. Considere agora segmentar preços por canal, cliente ou volume para extrair valor adicional.'
+    },
+    actions: [
+      'Pegue seu produto mais vendido. Calcule: preço de venda − (custo + impostos + pró-labore proporcional). O que sobra é seu lucro real por unidade.',
+      'Identifique seu top 3 mais vendido e seu top 3 mais lucrativo. Geralmente não são as mesmas listas — aí está a oportunidade.',
+      'Crie uma regra escrita de desconto: quem pode dar, em que condição, até que percentual. Sem regra, todo desconto vira improviso.'
+    ]
+  },
+  {
+    id: 'lucro',
+    name: 'Lucro e Resultado',
+    desc: 'Faturar não é lucrar. O que importa é o que sobra no fim do mês.',
+    questions: [
+      {
+        text: 'Você sabe agora, sem calcular, se sua empresa deu lucro ou prejuízo no mês passado?',
+        options: ['Não faço ideia', 'Tenho um palpite', 'Tenho boa noção', 'Sei com certeza']
+      },
+      {
+        text: 'Você calcula o resultado (lucro/prejuízo) todo mês, com método e sem depender da memória?',
+        options: ['Nunca calculo', 'Calculo quando lembro', 'Calculo quase todo mês', 'Calculo todo mês, com método']
+      },
+      {
+        text: 'Você sabe qual o faturamento mínimo para a empresa "empatar" (pagar tudo sem prejuízo)?',
+        options: ['Não sei', 'Já tentei pensar', 'Tenho uma estimativa', 'Sei o número exato']
+      },
+      {
+        text: 'Você conhece o ticket médio da sua empresa (quanto cada cliente gasta em média)?',
+        options: ['Não sei', 'Tenho uma ideia', 'Sei aproximadamente', 'Calculo periodicamente']
+      },
+      {
+        text: 'Quando precisa decidir algo importante (contratar, investir, mudar de local), você olha os números antes de decidir?',
+        options: ['Vou no feeling', 'Olho de leve', 'Olho com atenção', 'Decido baseado nos números']
+      }
+    ],
+    diagnosis: {
+      critical: 'Faturar não é lucrar — e essa confusão é fatal. Você pode estar batendo metas de vendas e sangrando dinheiro por baixo. O que enriquece é o que sobra no fim do mês, não o que entrou. Sem essa medição, você corre com o tanque vazando.',
+      attention: 'Você calcula, mas de forma irregular. O risco é tomar decisões importantes em mês que pareceu bom, sem perceber que a média não estava boa.',
+      good: 'Você mede resultado com regularidade. Agora vale aprofundar: lucro por produto, por canal, por período do ano.',
+      excellent: 'Você tem controle de resultado real. Use isso para fazer projeções e antecipar movimentos antes que os números obriguem.'
+    },
+    actions: [
+      'Calcule o lucro do mês passado agora: tudo que entrou menos tudo que saiu (incluindo seu pró-labore e impostos). Anote.',
+      'Vire isso um ritual: todo dia 5 do mês, fechamento do mês anterior. Sem desculpa.',
+      'Calcule seu ponto de equilíbrio: divida seus custos fixos pela sua margem média. É o quanto precisa vender para não dar prejuízo.'
+    ]
+  },
+  {
+    id: 'folga',
+    name: 'Folga Financeira',
+    desc: 'Sua capacidade de pagar contas em dia e segurar imprevistos sem sufoco.',
+    questions: [
+      {
+        text: 'Sua empresa consegue pagar todas as contas em dia, todo mês, sem aperto?',
+        options: ['É sempre apertado', 'Às vezes aperta muito', 'Geralmente folgado', 'Sempre com folga']
+      },
+      {
+        text: 'Você recebe dos clientes antes (ou na mesma data) de ter que pagar fornecedores?',
+        options: ['Pago antes de receber', 'Coincide no aperto', 'Quase sempre alinhado', 'Recebo bem antes de pagar']
+      },
+      {
+        text: 'Você tem uma reserva financeira que cobriria pelo menos 1 mês de operação parada?',
+        options: ['Não tenho reserva', 'Tenho pouco (menos de 1 mês)', 'Tenho 1 a 2 meses', 'Tenho 3 meses ou mais']
+      },
+      {
+        text: 'Você sabe quantos dias em média seu produto fica em estoque ou seu trabalho leva para virar venda?',
+        options: ['Não sei', 'Tenho uma ideia', 'Sei na média', 'Sei com precisão']
+      },
+      {
+        text: 'Quando aparece uma oportunidade boa (estoque promocional, equipamento), você tem dinheiro para aproveitar?',
+        options: ['Quase nunca', 'Raramente', 'Em algumas oportunidades', 'Sim, quando realmente vale a pena']
+      }
+    ],
+    diagnosis: {
+      critical: 'Trabalhar apertado de caixa é trabalhar para o banco e para os juros. Sem folga, você toma decisões ruins por desespero — aceita qualquer cliente, qualquer prazo, qualquer desconto. A pressão do caixa transforma cada decisão em sobrevivência.',
+      attention: 'Você navega, mas no limite. Qualquer imprevisto (um cliente que atrasa, uma máquina que quebra) vira crise. Folga não é luxo, é defesa.',
+      good: 'Você opera com folga razoável. Agora o objetivo é ampliar essa folga para virar capacidade de aproveitar oportunidades, não só de sobreviver.',
+      excellent: 'Sua folga financeira está sólida. Considere transformar parte dessa reserva em investimentos que rendam mais que conta bancária.'
+    },
+    actions: [
+      'Mapeie em uma folha: prazo médio para receber dos clientes × prazo médio para pagar fornecedores. Se receber demora mais que pagar, está aí seu sufoco.',
+      'Negocie com fornecedores: prazo maior. Negocie com clientes: prazo menor (ou desconto para pagamento à vista).',
+      'Separe 3% a 5% de cada venda numa conta separada. Sem mexer. Essa é sua reserva.'
+    ]
+  },
+  {
+    id: 'dividas',
+    name: 'Dívidas e Fornecedores',
+    desc: 'Sua relação com o que a empresa deve — e com quem.',
+    questions: [
+      {
+        text: 'Sua empresa paga tudo em dia, sem juros e sem multas, há pelo menos 3 meses seguidos?',
+        options: ['Atraso com frequência', 'Pago, mas com atrasos', 'Quase sempre em dia', 'Sempre em dia, sem juros']
+      },
+      {
+        text: 'Sua empresa está livre de dívidas que estão sufocando o caixa (cheque especial, agiotagem, parcelas atrasadas)?',
+        options: ['Estou sufocado(a) por dívidas', 'Tenho dívidas que pesam', 'Tenho dívidas, mas controladas', 'Totalmente livre desse tipo']
+      },
+      {
+        text: 'Você negocia ativamente prazos e descontos com seus fornecedores?',
+        options: ['Não negocio', 'Negocio raramente', 'Negocio com os principais', 'Negocio sempre que possível']
+      },
+      {
+        text: 'Em momentos de aperto, você consegue renegociar antes de atrasar (em vez de só atrasar e depois correr atrás)?',
+        options: ['Só atraso e depois corro', 'Tento, mas raramente funciona', 'Quase sempre me antecipo', 'Sempre me antecipo']
+      },
+      {
+        text: 'Você sabe agora, sem consultar, exatamente quanto sua empresa deve no total?',
+        options: ['Não faço ideia', 'Tenho um palpite', 'Sei aproximadamente', 'Sei o valor exato']
+      }
+    ],
+    diagnosis: {
+      critical: 'Dívida com juros altos é cupim financeiro. Cresce silenciosa e quando você percebe, comeu a empresa por dentro. Tem que cortar o ciclo antes que ele te corte — e isso significa enfrentar os números, não fugir deles.',
+      attention: 'Sua situação está controlada mas não confortável. Um mês ruim pode te jogar pra dentro do vermelho. Prevenção aqui é tudo.',
+      good: 'Você tem relação saudável com pagamentos e fornecedores. Aproveite essa credibilidade — ela vale dinheiro em negociação.',
+      excellent: 'Você é o tipo de cliente que fornecedores brigam para ter. Use isso a seu favor: peça condições melhores, fica confortável pedir.'
+    },
+    actions: [
+      'Faça hoje uma lista única com todas as dívidas: para quem deve, quanto, qual o juro, qual o prazo. Não dá para resolver o que não está visível.',
+      'Pegue o telefone e ligue para o credor da dívida com maior juro. Banco prefere receber renegociado a perder. Você tem mais poder do que imagina.',
+      'Priorize quitar primeiro as dívidas com juros mais altos. Cheque especial e cartão são quase sempre os piores.'
+    ]
+  },
+  {
+    id: 'impostos',
+    name: 'Impostos',
+    desc: 'O elefante que ninguém quer olhar — mas que olha por você todo mês.',
+    questions: [
+      {
+        text: 'Você sabe em qual regime tributário sua empresa está (MEI, Simples Nacional, Lucro Presumido, Lucro Real)?',
+        options: ['Não sei', 'Já me falaram, esqueci', 'Sei qual é o regime', 'Sei e entendo as regras']
+      },
+      {
+        text: 'Você tem um contador ou alguém qualificado cuidando da parte fiscal da empresa?',
+        options: ['Não tenho ninguém', 'Tenho, mas não confio muito', 'Tenho, confiável', 'Tenho, e é excelente']
+      },
+      {
+        text: 'Você confere mensalmente se os impostos pagos estão corretos (não apenas confia cego no contador)?',
+        options: ['Confio cego', 'Confiro raramente', 'Confiro algumas vezes', 'Confiro todo mês']
+      },
+      {
+        text: 'Você sabe, em média, quantos por cento do seu faturamento vai para impostos?',
+        options: ['Não faço ideia', 'Tenho um palpite', 'Sei aproximadamente', 'Sei o percentual exato']
+      },
+      {
+        text: 'Você já fez ou já pediu para alguém fazer uma análise para ver se seu regime tributário é o mais vantajoso?',
+        options: ['Nunca analisei', 'Já pensei em fazer', 'Fiz há tempos', 'Faço periodicamente']
+      }
+    ],
+    diagnosis: {
+      critical: 'Imposto pago errado é dinheiro doado ao governo — ou multa esperando. Imposto pago certo, mas no regime errado, é dinheiro deixado na mesa todo santo mês. E o pior: o problema só aparece quando a Receita bate na porta.',
+      attention: 'Você está em dia, mas no automático. Provavelmente paga mais do que precisaria. Uma análise tributária custa pouco e pode economizar muito.',
+      good: 'Você cuida bem da parte fiscal. Vale revisar o regime uma vez por ano — empresa muda, regime ideal pode mudar junto.',
+      excellent: 'Você tem domínio fiscal. Use o conhecimento para planejar movimentos futuros (expansão, novos produtos) já considerando o impacto tributário.'
+    },
+    actions: [
+      'Confirme com seu contador hoje qual regime tributário está usando. Se não souber, descubra antes do fim da semana.',
+      'Se ainda não tem contador, contrate um. Não é luxo — é necessidade. Custa pouco e evita problema enorme.',
+      'Marque uma conversa anual com seu contador especificamente para analisar se o regime atual ainda é o melhor para o tamanho da empresa hoje.'
+    ]
+  },
+  {
+    id: 'gestao',
+    name: 'Planejamento e Gestão',
+    desc: 'A diferença entre conduzir a empresa e ser conduzido por ela.',
+    questions: [
+      {
+        text: 'Você tem metas financeiras claras (com números e prazos) para os próximos 3 a 6 meses?',
+        options: ['Não tenho metas', 'Tenho só na cabeça', 'Tenho anotadas', 'Tenho com plano de ação']
+      },
+      {
+        text: 'Você faz orçamento antes do mês começar (planeja quanto vai entrar e quanto vai sair)?',
+        options: ['Não faço orçamento', 'Faço quando lembro', 'Faço na maioria dos meses', 'Faço todo mês, sem falhar']
+      },
+      {
+        text: 'Você toma decisões importantes com base em números, não no "feeling"?',
+        options: ['Decido no feeling', 'Às vezes olho número', 'Quase sempre nos números', 'Sempre nos números']
+      },
+      {
+        text: 'Você se atualiza sobre gestão financeira (cursos, livros, conteúdo, consultoria) ao menos a cada trimestre?',
+        options: ['Não me atualizo', 'Quando aparece algo na frente', 'A cada 3 a 6 meses', 'Constantemente']
+      },
+      {
+        text: 'Você usa alguma ferramenta (planilha, software, app) que centraliza as informações da empresa?',
+        options: ['Não uso nada', 'Uso caderno ou Excel solto', 'Uso planilha organizada', 'Uso software dedicado']
+      }
+    ],
+    diagnosis: {
+      critical: 'Empresa sem plano é um barco com vela mas sem leme. Você vai para algum lugar — só não sabe qual, nem se vai chegar inteiro. Sem meta clara, qualquer dia é dia de "tocar o negócio". E "tocar o negócio" é a forma educada de dizer "sobreviver".',
+      attention: 'Você planeja, mas de forma intermitente. Um mês tem clareza, no outro está apagando incêndio. Sistematizar isso é o que separa empresa que cresce de empresa que apenas continua.',
+      good: 'Você tem hábito de planejamento. O próximo passo é horizontes mais longos: começar a pensar em 12 meses, não só nos próximos 60 dias.',
+      excellent: 'Você gerencia com método. Considere agora envolver mais pessoas no planejamento — quando o método sai da sua cabeça e vira sistema, a empresa cresce com mais segurança.'
+    },
+    actions: [
+      'Defina hoje uma meta financeira para os próximos 90 dias. Tem que ter número e tem que ter prazo. Vago não vale.',
+      'Antes do próximo mês começar, gaste 30 minutos estimando: quanto vou faturar, quanto vou gastar, quanto deve sobrar. Compare no fim do mês.',
+      'Bloqueie 1 hora por semana na agenda — sagrada, intransferível — para olhar os números e decidir os próximos passos.'
+    ]
+  }
+];
+
+// ============================================================
+// APP STATE & LOGIC
+// ============================================================
+
+const STORAGE_KEY = 'tudo-em-dia-diagnostico-v2';
+
+const App = {
+  state: {
+    screen: 'welcome',
+    qualification: { name: '', revenue: null, years: null },
+    currentCat: 0,
+    answers: {},
+    premium: { unlocked: false, customerName: '', customerEmail: '', unlockedAt: null }
+  },
+
+  init() {
+    this.load();
+    this.checkPremiumUnlock();
+    this.renderQualOptions();
+    if (this.state.screen !== 'welcome') {
+      this.go(this.state.screen);
+    }
+  },
+
+  // Detects ?premium=success in URL (set by Hotmart "Página de Obrigado")
+  // and unlocks the premium download. Note: for production, validate via
+  // Hotmart webhook + backend to prevent URL tampering.
+  checkPremiumUnlock() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('premium') === 'success') {
+        const name = params.get('name') || this.state.premium.customerName || '';
+        const email = params.get('email') || this.state.premium.customerEmail || '';
+        this.state.premium.unlocked = true;
+        if (name) this.state.premium.customerName = name;
+        if (email) this.state.premium.customerEmail = email;
+        this.state.premium.unlockedAt = Date.now();
+        this.save();
+        // Clean the URL so refreshing won't re-trigger params
+        const cleanUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, '', cleanUrl);
+      }
+    } catch (e) { /* ignore */ }
+  },
+
+  load() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        this.state = { ...this.state, ...data };
+        if (!this.state.qualification) this.state.qualification = { name: '', revenue: null, years: null };
+        if (!this.state.premium) this.state.premium = { unlocked: false, customerName: '', customerEmail: '', unlockedAt: null };
+      }
+    } catch (e) { /* ignore */ }
+  },
+
+  save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+    } catch (e) { /* ignore */ }
+  },
+
+  reset() {
+    this.state = {
+      screen: 'welcome',
+      qualification: { name: '', revenue: null, years: null },
+      currentCat: 0,
+      answers: {},
+      premium: { unlocked: false, customerName: '', customerEmail: '', unlockedAt: null }
+    };
+    this.save();
+    document.getElementById('qualName').value = '';
+    this.renderQualOptions();
+    this.go('welcome');
+  },
+
+  start() {
+    // if qualification not done yet, go to qualification screen
+    if (!this.state.qualification.revenue) {
+      this.go('qualification');
+    } else if (Object.keys(this.state.answers).length > 0) {
+      this.go('question');
+    } else {
+      this.state.currentCat = 0;
+      this.go('question');
+    }
+  },
+
+  go(screen) {
+    this.state.screen = screen;
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + screen).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (screen === 'question') this.renderQuestion();
+    if (screen === 'result') this.renderResult();
+    if (screen === 'qualification') {
+      // restore qualification field values
+      document.getElementById('qualName').value = this.state.qualification.name || '';
+      this.renderQualOptions();
+    }
+    this.save();
+  },
+
+  // ============================================================
+  // QUALIFICATION
+  // ============================================================
+
+  renderQualOptions() {
+    const revHtml = REVENUE_RANGES.map(r => `
+      <button class="qual-option ${this.state.qualification.revenue === r.id ? 'selected' : ''}"
+              onclick="App.selectQual('revenue', '${r.id}')">${r.label}</button>
+    `).join('');
+    const revEl = document.getElementById('qualRevenueOptions');
+    if (revEl) revEl.innerHTML = revHtml;
+
+    const yrsHtml = YEARS_RANGES.map(y => `
+      <button class="qual-option ${this.state.qualification.years === y.id ? 'selected' : ''}"
+              onclick="App.selectQual('years', '${y.id}')">${y.label}</button>
+    `).join('');
+    const yrsEl = document.getElementById('qualYearsOptions');
+    if (yrsEl) yrsEl.innerHTML = yrsHtml;
+
+    this.updateQualButton();
+  },
+
+  selectQual(field, id) {
+    this.state.qualification[field] = id;
+    this.renderQualOptions();
+    this.save();
+  },
+
+  updateQual() {
+    this.state.qualification.name = document.getElementById('qualName').value.trim();
+    this.save();
+  },
+
+  updateQualButton() {
+    const btn = document.getElementById('qualNext');
+    if (btn) btn.disabled = !this.state.qualification.revenue;
+  },
+
+  startQuestions() {
+    if (!this.state.qualification.revenue) {
+      alert('Por favor, informe o faturamento médio mensal para continuar.');
+      return;
+    }
+    this.state.currentCat = 0;
+    this.go('question');
+  },
+
+  // ============================================================
+  // QUESTIONS
+  // ============================================================
+
+  renderQuestion() {
+    const cat = CATEGORIES[this.state.currentCat];
+    const total = CATEGORIES.length;
+    const idx = this.state.currentCat;
+
+    const answered = Object.keys(this.state.answers).length;
+    const totalQ = CATEGORIES.length * 5;
+    document.getElementById('progressFill').style.width = ((idx) / total * 100) + '%';
+    document.getElementById('progressLabel').textContent = `Parte ${idx + 1} de ${total}`;
+    document.getElementById('progressCount').textContent = `${answered} de ${totalQ} respondidas`;
+
+    const html = `
+      <div class="category-header">
+        <div class="category-number">PARTE ${String(idx + 1).padStart(2, '0')}</div>
+        <h2 class="category-name">${cat.name}</h2>
+        <p class="category-desc">${cat.desc}</p>
+      </div>
+      ${cat.questions.map((q, qi) => {
+        const key = `${cat.id}-${qi}`;
+        const selected = this.state.answers[key];
+        return `
+          <div class="question">
+            <p class="question-text">${q.text}</p>
+            <div class="scale" role="radiogroup">
+              ${q.options.map((label, optIdx) => {
+                const num = optIdx + 1;
+                return `
+                  <button class="scale-option ${selected === num ? 'selected' : ''}"
+                          onclick="App.answer('${key}', ${num})"
+                          role="radio"
+                          aria-checked="${selected === num}">
+                    <span class="scale-num">${num}</span>
+                    <span class="scale-label">${label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('')}
+    `;
+    document.getElementById('categoryContent').innerHTML = html;
+
+    document.getElementById('btnBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
+    document.getElementById('btnNext').textContent = idx === total - 1 ? 'Ver diagnóstico' : 'Próxima parte';
+  },
+
+  answer(key, value) {
+    this.state.answers[key] = value;
+    this.renderQuestion();
+    this.save();
+  },
+
+  isCurrentComplete() {
+    const cat = CATEGORIES[this.state.currentCat];
+    return cat.questions.every((_, qi) => this.state.answers[`${cat.id}-${qi}`] !== undefined);
+  },
+
+  next() {
+    if (!this.isCurrentComplete()) {
+      alert('Responda todas as 5 perguntas desta parte para continuar.');
+      return;
+    }
+    if (this.state.currentCat === CATEGORIES.length - 1) {
+      this.go('result');
+    } else {
+      this.state.currentCat++;
+      this.renderQuestion();
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      this.save();
+    }
+  },
+
+  prev() {
+    if (this.state.currentCat > 0) {
+      this.state.currentCat--;
+      this.renderQuestion();
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      this.save();
+    }
+  },
+
+  // ============================================================
+  // RESULTS
+  // ============================================================
+
+  scoreCategory(cat) {
+    let sum = 0;
+    cat.questions.forEach((_, qi) => {
+      sum += this.state.answers[`${cat.id}-${qi}`] || 0;
+    });
+    return sum;
+  },
+
+  classifyCategory(score) {
+    if (score <= 9) return 'critical';
+    if (score <= 13) return 'attention';
+    if (score <= 17) return 'good';
+    return 'excellent';
+  },
+
+  classifyOverall(total) {
+    if (total <= 75) return 'critical';
+    if (total <= 110) return 'attention';
+    if (total <= 140) return 'good';
+    return 'excellent';
+  },
+
+  labelOf(cls) {
+    return { critical: 'Crítico', attention: 'Atenção', good: 'Bom', excellent: 'Excelente' }[cls];
+  },
+
+  summaryOf(cls) {
+    return {
+      critical: 'Sua empresa está em zona de risco. Vários pilares fundamentais precisam de atenção imediata — mas a notícia boa é que pequenas ações geram grandes resultados quando se começa do zero.',
+      attention: 'Você tem uma base, mas com pontos vulneráveis que estão drenando lucro e energia silenciosamente. Organizar essas áreas pode mudar o jogo nos próximos 90 dias.',
+      good: 'Sua gestão financeira está saudável no geral. Agora é refinar os detalhes para sair do "tocando o negócio" e entrar em modo crescimento consciente.',
+      excellent: 'Sua empresa tem gestão financeira sólida — isso é raro. O foco agora é otimização e antecipação: extrair mais valor do que já está bem-feito e preparar movimentos estratégicos.'
+    }[cls];
+  },
+
+  labelById(arr, id) {
+    const found = arr.find(x => x.id === id);
+    return found ? found.label : '';
+  },
+
+  renderResult() {
+    const scores = CATEGORIES.map(cat => ({
+      cat,
+      score: this.scoreCategory(cat),
+      cls: this.classifyCategory(this.scoreCategory(cat))
+    }));
+
+    const total = scores.reduce((sum, s) => sum + s.score, 0);
+    const overallCls = this.classifyOverall(total);
+
+    const order = { critical: 0, attention: 1, good: 2, excellent: 3 };
+    const sortedScores = [...scores].sort((a, b) => order[a.cls] - order[b.cls]);
+    const criticalCats = scores.filter(s => s.cls === 'critical' || s.cls === 'attention').map(s => s.cat.name);
+
+    const q = this.state.qualification;
+    const revenueLabel = this.labelById(REVENUE_RANGES, q.revenue);
+    const yearsLabel = this.labelById(YEARS_RANGES, q.years);
+    const name = q.name || '';
+
+    const waNumber = '5527997049062';
+    const waLines = [
+      `Olá! Acabei de fazer o Diagnóstico Financeiro da Tudo em Dia.`,
+      ``,
+      name ? `Sou ${name}.` : `Gostaria de uma conversa.`,
+      `📊 Faturamento médio mensal: ${revenueLabel}`,
+      yearsLabel ? `⏱️ Tempo de empresa: ${yearsLabel}` : null,
+      ``,
+      `Meu resultado: ${total}/160 (${this.labelOf(overallCls)})`,
+      ``,
+      criticalCats.length > 0 ? `Pontos que mais precisam de atenção:` : null,
+      criticalCats.length > 0 ? criticalCats.map(c => `• ${c}`).join('\n') : null,
+      ``,
+      `Quero entender como você pode me ajudar.`
+    ].filter(l => l !== null);
+    const waMsg = waLines.join('\n');
+    const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
+
+    const html = `
+      <div class="result-header">
+        ${name ? `<div class="result-greeting">Olá, ${name}.</div>` : ''}
+        <div class="result-eyebrow">Seu diagnóstico</div>
+        <h1 class="result-title">O retrato da sua<br>saúde financeira</h1>
+      </div>
+
+      ${this.renderMoneyImpact(scores)}
+
+      <div class="result-score-row">
+        <span class="result-score-row-label">Pontuação</span>
+        <span class="result-score-row-value">${total}<span class="of"> / 160</span></span>
+        <span class="score-label ${overallCls}">${this.labelOf(overallCls)}</span>
+      </div>
+
+      ${this.renderBars(scores)}
+
+      <div class="result-summary">
+        <p>${this.summaryOf(overallCls)}</p>
+      </div>
+
+      ${sortedScores.map((s, i) => `
+        <div class="chapter">
+          <div class="chapter-head">
+            <div class="chapter-num">${String(i + 1).padStart(2, '0')}</div>
+            <h3 class="chapter-title">${s.cat.name}</h3>
+            <div class="chapter-score">
+              <span class="chapter-score-badge ${s.cls}">${this.labelOf(s.cls)}</span>
+              <span class="chapter-score-num">${s.score}/20</span>
+            </div>
+          </div>
+          <div class="chapter-body">
+            <p>${s.cat.diagnosis[s.cls]}</p>
+          </div>
+          ${(s.cls === 'critical' || s.cls === 'attention') ? `
+            <div class="actions-title">O que fazer agora</div>
+            <ol class="actions-list">
+              ${s.cat.actions.map(a => `<li>${a}</li>`).join('')}
+            </ol>
+          ` : ''}
+        </div>
+      `).join('')}
+
+      ${this.renderPremiumSection(scores)}
+
+      <div class="cta">
+        <div class="cta-eyebrow">Próximo passo</div>
+        <h2 class="cta-title">Pronto pra colocar<br><em>tudo em dia?</em></h2>
+        <p class="cta-text">O diagnóstico mostra o caminho. Eu te ajudo a percorrê-lo, sem você precisar virar especialista em finanças.</p>
+        <a href="${waLink}" target="_blank" rel="noopener" class="btn btn-primary">
+          Falar com especialista
+        </a>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <button class="btn btn-ghost" onclick="if(confirm('Refazer o diagnóstico? Suas respostas atuais serão apagadas.')) App.reset()">Refazer o diagnóstico</button>
+      </div>
+    `;
+
+    document.getElementById('resultContent').innerHTML = html;
+  },
+
+  // ============================================================
+  // MONEY IMPACT ESTIMATE
+  // ============================================================
+
+  calculateMoneyImpact(scores) {
+    const revenue = REVENUE_MIDPOINTS[this.state.qualification.revenue] || 0;
+    if (revenue === 0) return { value: 0, hasImpact: false, formatted: '' };
+
+    let totalImpactPct = 0;
+    scores.forEach(s => {
+      const impact = CATEGORY_IMPACT[s.cat.id];
+      if (!impact) return;
+      if (s.cls === 'critical') totalImpactPct += impact.critical;
+      else if (s.cls === 'attention') totalImpactPct += impact.attention;
+    });
+
+    totalImpactPct = Math.min(totalImpactPct, MAX_IMPACT_PCT);
+    if (totalImpactPct <= 0) return { value: 0, hasImpact: false, formatted: '' };
+
+    // Round to nearest 100 BRL for cleaner display
+    const raw = revenue * totalImpactPct;
+    const value = Math.round(raw / 100) * 100;
+
+    return {
+      value,
+      hasImpact: value > 0,
+      formatted: 'R$ ' + value.toLocaleString('pt-BR')
+    };
+  },
+
+  renderMoneyImpact(scores) {
+    const impact = this.calculateMoneyImpact(scores);
+
+    if (!impact.hasImpact) {
+      return `
+        <div class="money-impact">
+          <p class="money-impact-eyebrow">Sua situação</p>
+          <p class="money-impact-ok">Sua gestão financeira está em ordem.</p>
+          <p class="money-impact-desc">Nenhum ponto crítico ou de atenção foi identificado em volume relevante. O foco agora é refinar o que já funciona e preparar movimentos de crescimento.</p>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="money-impact">
+        <p class="money-impact-eyebrow">Estimativa de impacto</p>
+        <div class="money-impact-value">${impact.formatted}</div>
+        <p class="money-impact-subtitle">por mês escapando do seu lucro</p>
+        <p class="money-impact-desc">Com base no seu faturamento informado e nas falhas identificadas, esse é o lucro adicional que sua empresa pode não estar capturando — projeção baseada em padrões típicos de empresas com perfil similar ao seu.</p>
+      </div>
+    `;
+  },
+
+  // ============================================================
+  // BARS (ranked by severity, worst first)
+  // ============================================================
+
+  renderBars(scores) {
+    const sorted = [...scores].sort((a, b) => a.score - b.score);
+    return `
+      <div class="bars-section">
+        <p class="bars-section-title">Onde estão as falhas</p>
+        <div class="bars-list">
+          ${sorted.map(s => `
+            <div class="bar-row">
+              <span class="bar-row-label">${s.cat.name}</span>
+              <div class="bar-row-track">
+                <div class="bar-row-fill ${s.cls}" style="width: ${(s.score / 20) * 100}%"></div>
+              </div>
+              <span class="bar-row-score">${s.score}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  },
+
+  // ============================================================
+  // PREMIUM SECTION (CTA card / Unlocked card)
+  // ============================================================
+
+  renderPremiumSection(scores) {
+    const impact = this.calculateMoneyImpact(scores);
+
+    // Already paid: show download card
+    if (this.state.premium.unlocked) {
+      const customerName = this.state.premium.customerName || this.state.qualification.name || '';
+      const greeting = customerName ? `${customerName}, seu` : 'Seu';
+      return `
+        <div class="premium-unlocked">
+          <div class="premium-unlocked-eyebrow">Diagnóstico Premium</div>
+          <h2 class="premium-unlocked-title">${greeting} relatório completo está pronto.</h2>
+          <p class="premium-unlocked-desc">Baixe agora o PDF com seu diagnóstico completo, ranking das áreas críticas e plano de ação detalhado. Pode imprimir, compartilhar com sócio ou enviar pro contador. Você também recebe nos próximos 10 dias uma trilha de 5 e-mails com aulas implementando cada ação prioritária.</p>
+          <button class="btn btn-primary" id="premiumDownloadBtn" onclick="App.generatePDF()">
+            <span id="premiumDownloadBtnText">Baixar Diagnóstico em PDF</span>
+          </button>
+        </div>
+      `;
+    }
+
+    // Not paid: show CTA
+    const impactPhrase = impact.hasImpact
+      ? `Saber que ${impact.formatted} podem estar escapando por mês é só o começo. Você precisa do plano de ação em mãos sempre que precisar voltar a ele.`
+      : 'Tenha o diagnóstico completo e o plano de ação em PDF sempre que precisar voltar a eles.';
+
+    return `
+      <div class="premium-cta">
+        <div class="premium-cta-eyebrow">Diagnóstico Premium</div>
+        <h2 class="premium-cta-title">Leve seu diagnóstico <em>com você.</em></h2>
+        <p class="premium-cta-lede">${impactPhrase}</p>
+        <ul class="premium-features">
+          <li><strong>Relatório completo em PDF</strong> — pra imprimir, salvar e compartilhar com sócio ou contador</li>
+          <li><strong>Trilha de 5 e-mails em 10 dias</strong> — aulas curtas implementando cada ação prioritária</li>
+          <li><strong>Acesso ao reteste em 30 dias</strong> — refaça o diagnóstico e meça seu progresso real</li>
+        </ul>
+        <div class="premium-price-row">
+          <span class="premium-price">R$ ${PREMIUM_PRICE_BRL}</span>
+          <span class="premium-price-note">pagamento único · acesso vitalício</span>
+        </div>
+        <div class="premium-cta-actions">
+          <button class="btn btn-primary" onclick="App.showPremiumModal()">Quero o Premium</button>
+        </div>
+      </div>
+    `;
+  },
+
+  // ============================================================
+  // PREMIUM MODAL (email capture + redirect to Hotmart)
+  // ============================================================
+
+  showPremiumModal() {
+    const nameInput = document.getElementById('premiumName');
+    const emailInput = document.getElementById('premiumEmail');
+
+    // Pre-fill name from qualification if available
+    if (nameInput && !nameInput.value && this.state.qualification.name) {
+      nameInput.value = this.state.qualification.name;
+    }
+    if (emailInput && !emailInput.value && this.state.premium.customerEmail) {
+      emailInput.value = this.state.premium.customerEmail;
+    }
+
+    document.getElementById('premiumModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Clear any prior errors
+    document.getElementById('premiumNameError').classList.remove('visible');
+    document.getElementById('premiumEmailError').classList.remove('visible');
+
+    // Focus first empty field
+    setTimeout(() => {
+      if (nameInput && !nameInput.value) nameInput.focus();
+      else if (emailInput) emailInput.focus();
+    }, 100);
+  },
+
+  hidePremiumModal() {
+    document.getElementById('premiumModal').classList.remove('active');
+    document.body.style.overflow = '';
+  },
+
+  submitPremiumForm() {
+    const nameInput = document.getElementById('premiumName');
+    const emailInput = document.getElementById('premiumEmail');
+    const nameError = document.getElementById('premiumNameError');
+    const emailError = document.getElementById('premiumEmailError');
+    const submitText = document.getElementById('premiumSubmitText');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    let valid = true;
+    nameError.classList.remove('visible');
+    emailError.classList.remove('visible');
+
+    if (!name || name.length < 2) {
+      nameError.classList.add('visible');
+      valid = false;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.classList.add('visible');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Persist so we know who this is when they return
+    this.state.premium.customerName = name;
+    this.state.premium.customerEmail = email;
+    this.save();
+
+    submitText.innerHTML = '<span class="premium-loading"></span> Redirecionando...';
+
+    // Hotmart accepts email/name as URL params to pre-fill checkout
+    const sep = HOTMART_CHECKOUT_URL.includes('?') ? '&' : '?';
+    const params = new URLSearchParams({ email, name }).toString();
+    const checkoutUrl = HOTMART_CHECKOUT_URL + sep + params;
+
+    setTimeout(() => { window.location.href = checkoutUrl; }, 350);
+  },
+
+  // ============================================================
+  // PDF GENERATION (jsPDF, lazy loaded)
+  // ============================================================
+
+  loadJsPDF() {
+    if (window.jspdf && window.jspdf.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      script.onload = () => {
+        if (window.jspdf && window.jspdf.jsPDF) resolve(window.jspdf.jsPDF);
+        else reject(new Error('jsPDF não carregou corretamente'));
+      };
+      script.onerror = () => reject(new Error('Falha ao carregar jsPDF'));
+      document.head.appendChild(script);
+    });
+  },
+
+  async generatePDF() {
+    const btn = document.getElementById('premiumDownloadBtn');
+    const btnText = document.getElementById('premiumDownloadBtnText');
+    const originalText = btnText ? btnText.innerHTML : 'Baixar Diagnóstico em PDF';
+
+    try {
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.innerHTML = '<span class="premium-loading"></span> Gerando PDF...';
+
+      const jsPDF = await this.loadJsPDF();
+      const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+      // === Data ===
+      const scores = CATEGORIES.map(cat => ({
+        cat,
+        score: this.scoreCategory(cat),
+        cls: this.classifyCategory(this.scoreCategory(cat))
+      }));
+      const total = scores.reduce((sum, s) => sum + s.score, 0);
+      const overallCls = this.classifyOverall(total);
+      const impact = this.calculateMoneyImpact(scores);
+      const order = { critical: 0, attention: 1, good: 2, excellent: 3 };
+      const sortedScores = [...scores].sort((a, b) => order[a.cls] - order[b.cls] || a.score - b.score);
+      const sortedByScore = [...scores].sort((a, b) => a.score - b.score);
+      const focusedScores = sortedScores.filter(s => s.cls === 'critical' || s.cls === 'attention');
+
+      const name = this.state.premium.customerName || this.state.qualification.name || '';
+      const revenueLabel = this.labelById(REVENUE_RANGES, this.state.qualification.revenue);
+      const yearsLabel = this.labelById(YEARS_RANGES, this.state.qualification.years);
+
+      // === Colors ===
+      const C = {
+        rose: [200, 128, 128],
+        roseDeep: [168, 98, 95],
+        gold: [201, 164, 92],
+        goldDeep: [168, 132, 62],
+        ink: [45, 36, 36],
+        inkSoft: [90, 72, 72],
+        mute: [138, 120, 120],
+        creamWarm: [242, 235, 224],
+        critical: [181, 86, 75],
+        attention: [201, 164, 92],
+        good: [122, 144, 112],
+        excellent: [79, 107, 71]
+      };
+
+      // === Layout constants ===
+      const PAGE_W = 210;
+      const PAGE_H = 297;
+      const MX = 18;
+      const M_TOP = 22;
+      const M_BOT = 25;
+      const CW = PAGE_W - (MX * 2);
+      let y = M_TOP;
+
+      const needsNewPage = (space) => y + space > PAGE_H - M_BOT;
+      const newPage = () => {
+        addFooter();
+        doc.addPage();
+        y = M_TOP;
+      };
+
+      const addFooter = () => {
+        const pageNum = doc.internal.getCurrentPageInfo().pageNumber;
+        if (pageNum === 1) return;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...C.mute);
+        doc.text('Tudo em Dia · Diagnóstico Financeiro', MX, PAGE_H - 12);
+        doc.text(String(pageNum), PAGE_W - MX, PAGE_H - 12, { align: 'right' });
+      };
+
+      // ============================================================
+      // PAGE 1 — COVER
+      // ============================================================
+
+      // Brand mark (small, top-left)
+      doc.setFont('times', 'italic');
+      doc.setFontSize(13);
+      doc.setTextColor(...C.roseDeep);
+      doc.text('Tudo em Dia', MX, y);
+      y += 2;
+      doc.setDrawColor(...C.rose);
+      doc.setLineWidth(0.4);
+      doc.line(MX, y + 1, MX + 24, y + 1);
+
+      // Centered title block
+      y = 95;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.mute);
+      doc.text('DIAGNÓSTICO FINANCEIRO', MX, y);
+      y += 16;
+
+      doc.setFont('times', 'normal');
+      doc.setFontSize(46);
+      doc.setTextColor(...C.ink);
+      doc.text('Seu retrato', MX, y);
+      y += 16;
+      doc.setFont('times', 'italic');
+      doc.text('financeiro.', MX, y);
+      y += 52;
+
+      // Customer info block
+      if (name) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(...C.mute);
+        doc.text('PREPARADO PARA', MX, y);
+        y += 6;
+        doc.setFont('times', 'normal');
+        doc.setFontSize(22);
+        doc.setTextColor(...C.ink);
+        doc.text(name, MX, y);
+        y += 14;
+      }
+
+      if (revenueLabel) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(...C.inkSoft);
+        doc.text('Faturamento médio mensal: ' + revenueLabel, MX, y);
+        y += 5;
+      }
+      if (yearsLabel) {
+        doc.text('Tempo de empresa: ' + yearsLabel, MX, y);
+        y += 5;
+      }
+
+      // Date at footer
+      const dateText = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.mute);
+      doc.text(dateText, MX, PAGE_H - 20);
+
+      // ============================================================
+      // PAGE 2 — RESUMO EXECUTIVO
+      // ============================================================
+
+      newPage();
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.mute);
+      doc.text('RESUMO EXECUTIVO', MX, y);
+      y += 16;
+
+      if (impact.hasImpact) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(...C.mute);
+        doc.text('ESTIMATIVA DE IMPACTO', PAGE_W / 2, y, { align: 'center' });
+        y += 14;
+
+        doc.setFont('times', 'normal');
+        doc.setFontSize(48);
+        doc.setTextColor(...C.ink);
+        doc.text(impact.formatted, PAGE_W / 2, y, { align: 'center' });
+        y += 11;
+
+        doc.setFont('times', 'italic');
+        doc.setFontSize(13);
+        doc.setTextColor(...C.inkSoft);
+        doc.text('por mês escapando do seu lucro', PAGE_W / 2, y, { align: 'center' });
+        y += 14;
+
+        const descText = 'Com base no seu faturamento e nas falhas identificadas, esse é o lucro adicional que sua empresa pode não estar capturando — projeção baseada em padrões típicos de empresas com perfil similar ao seu.';
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9.5);
+        doc.setTextColor(...C.inkSoft);
+        const descLines = doc.splitTextToSize(descText, CW - 20);
+        doc.text(descLines, PAGE_W / 2, y, { align: 'center' });
+        y += descLines.length * 4.5 + 18;
+      }
+
+      // Score line
+      doc.setDrawColor(...C.creamWarm);
+      doc.setLineWidth(0.4);
+      doc.line(MX, y, PAGE_W - MX, y);
+      y += 9;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.mute);
+      doc.text('PONTUAÇÃO TOTAL', MX, y);
+
+      doc.setFont('times', 'normal');
+      doc.setFontSize(20);
+      doc.setTextColor(...C.ink);
+      doc.text(`${total} / 160`, PAGE_W - MX, y, { align: 'right' });
+      y += 7;
+
+      const clsColor = C[overallCls] || C.attention;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(...clsColor);
+      doc.text(this.labelOf(overallCls).toUpperCase(), MX, y);
+      y += 5;
+      doc.line(MX, y, PAGE_W - MX, y);
+      y += 14;
+
+      doc.setFont('times', 'italic');
+      doc.setFontSize(11.5);
+      doc.setTextColor(...C.inkSoft);
+      const summaryLines = doc.splitTextToSize(this.summaryOf(overallCls), CW);
+      doc.text(summaryLines, MX, y);
+      y += summaryLines.length * 5.5;
+
+      // ============================================================
+      // PAGE 3 — MAPA DE SEVERIDADE
+      // ============================================================
+
+      newPage();
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.mute);
+      doc.text('MAPA DE SEVERIDADE', MX, y);
+      y += 14;
+
+      doc.setFont('times', 'normal');
+      doc.setFontSize(22);
+      doc.setTextColor(...C.ink);
+      doc.text('Onde estão as falhas', MX, y);
+      y += 7;
+
+      doc.setFont('times', 'italic');
+      doc.setFontSize(11);
+      doc.setTextColor(...C.inkSoft);
+      doc.text('Ranqueado da área mais frágil para a mais sólida.', MX, y);
+      y += 16;
+
+      const labelW = 56;
+      const barX = MX + labelW + 4;
+      const barW = CW - labelW - 22;
+
+      sortedByScore.forEach(s => {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(...C.ink);
+        doc.text(s.cat.name, MX, y + 3.5);
+
+        doc.setFillColor(...C.creamWarm);
+        doc.roundedRect(barX, y, barW, 5, 1, 1, 'F');
+
+        const fillColor = C[s.cls] || C.attention;
+        doc.setFillColor(...fillColor);
+        const fillW = (s.score / 20) * barW;
+        if (fillW > 0) {
+          doc.roundedRect(barX, y, fillW, 5, 1, 1, 'F');
+        }
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(...C.mute);
+        doc.text(String(s.score), PAGE_W - MX, y + 3.5, { align: 'right' });
+
+        y += 11;
+      });
+
+      y += 8;
+
+      // Mini legend
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      const drawLegItem = (xPos, color, label) => {
+        doc.setFillColor(...color);
+        doc.rect(xPos, y - 2.5, 3, 3, 'F');
+        doc.setTextColor(...C.mute);
+        doc.text(label, xPos + 5, y);
+      };
+      drawLegItem(MX, C.critical, 'Crítico');
+      drawLegItem(MX + 25, C.attention, 'Atenção');
+      drawLegItem(MX + 50, C.good, 'Bom');
+      drawLegItem(MX + 72, C.excellent, 'Excelente');
+
+      // ============================================================
+      // PAGES 4+ — PLANO DE AÇÃO (chapters)
+      // ============================================================
+
+      if (focusedScores.length > 0) {
+        newPage();
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(...C.mute);
+        doc.text('PLANO DE AÇÃO', MX, y);
+        y += 14;
+
+        doc.setFont('times', 'normal');
+        doc.setFontSize(22);
+        doc.setTextColor(...C.ink);
+        doc.text('O que fazer agora', MX, y);
+        y += 7;
+
+        doc.setFont('times', 'italic');
+        doc.setFontSize(11);
+        doc.setTextColor(...C.inkSoft);
+        doc.text('Detalhamento e ações para cada área crítica ou de atenção.', MX, y);
+        y += 16;
+
+        focusedScores.forEach((s, i) => {
+          const diagLines = doc.splitTextToSize(s.cat.diagnosis[s.cls], CW);
+          const actionLinesArr = s.cat.actions.map(a => doc.splitTextToSize(a, CW - 12));
+          const totalActionLines = actionLinesArr.reduce((sum, arr) => sum + arr.length, 0);
+          const neededSpace = 18 + (diagLines.length * 4.6) + 14 + (totalActionLines * 5) + (s.cat.actions.length * 4) + 14;
+
+          if (needsNewPage(neededSpace)) newPage();
+
+          // Chapter number
+          doc.setFont('times', 'normal');
+          doc.setFontSize(11);
+          doc.setTextColor(...C.rose);
+          doc.text(String(i + 1).padStart(2, '0'), MX, y);
+
+          // Title
+          doc.setFont('times', 'normal');
+          doc.setFontSize(17);
+          doc.setTextColor(...C.ink);
+          doc.text(s.cat.name, MX + 12, y);
+
+          // Badge (right side)
+          const clsColor2 = C[s.cls] || C.attention;
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(7.5);
+          doc.setTextColor(...clsColor2);
+          doc.text(this.labelOf(s.cls).toUpperCase() + ' · ' + s.score + '/20', PAGE_W - MX, y - 1, { align: 'right' });
+
+          y += 4;
+          doc.setDrawColor(...C.creamWarm);
+          doc.setLineWidth(0.3);
+          doc.line(MX, y, PAGE_W - MX, y);
+          y += 8;
+
+          // Diagnosis text
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(...C.inkSoft);
+          doc.text(diagLines, MX, y);
+          y += diagLines.length * 4.6 + 8;
+
+          // Actions header
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(7.5);
+          doc.setTextColor(...C.roseDeep);
+          doc.text('O QUE FAZER AGORA', MX, y);
+          y += 8;
+
+          // Action items
+          s.cat.actions.forEach((action, idx) => {
+            const aLines = actionLinesArr[idx];
+            if (needsNewPage(aLines.length * 5 + 6)) newPage();
+
+            doc.setFont('times', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(...C.rose);
+            doc.text(String(idx + 1).padStart(2, '0'), MX, y);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(...C.ink);
+            doc.text(aLines, MX + 10, y);
+            y += aLines.length * 5 + 3;
+          });
+
+          y += 12;
+        });
+      }
+
+      // ============================================================
+      // LAST PAGE — CTA
+      // ============================================================
+
+      newPage();
+      y = 90;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.mute);
+      doc.text('PRÓXIMO PASSO', PAGE_W / 2, y, { align: 'center' });
+      y += 18;
+
+      doc.setFont('times', 'normal');
+      doc.setFontSize(30);
+      doc.setTextColor(...C.ink);
+      doc.text('Pronto pra colocar', PAGE_W / 2, y, { align: 'center' });
+      y += 12;
+      doc.setFont('times', 'italic');
+      doc.setTextColor(...C.roseDeep);
+      doc.text('tudo em dia?', PAGE_W / 2, y, { align: 'center' });
+      y += 22;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(11);
+      doc.setTextColor(...C.inkSoft);
+      const ctaText = 'O diagnóstico te mostra o caminho. Eu te ajudo a percorrê-lo, sem você precisar virar especialista em finanças.';
+      const ctaLines = doc.splitTextToSize(ctaText, 130);
+      doc.text(ctaLines, PAGE_W / 2, y, { align: 'center' });
+      y += ctaLines.length * 5.5 + 18;
+
+      // WhatsApp box
+      doc.setDrawColor(...C.gold);
+      doc.setLineWidth(0.6);
+      doc.line(PAGE_W / 2 - 40, y, PAGE_W / 2 + 40, y);
+      y += 11;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.goldDeep);
+      doc.text('FALE COMIGO NO WHATSAPP', PAGE_W / 2, y, { align: 'center' });
+      y += 10;
+
+      doc.setFont('times', 'normal');
+      doc.setFontSize(20);
+      doc.setTextColor(...C.ink);
+      doc.text('+55 27 99704-9062', PAGE_W / 2, y, { align: 'center' });
+      y += 4;
+
+      doc.setDrawColor(...C.gold);
+      doc.setLineWidth(0.6);
+      doc.line(PAGE_W / 2 - 40, y + 6, PAGE_W / 2 + 40, y + 6);
+
+      // Brand footer
+      doc.setFont('times', 'italic');
+      doc.setFontSize(12);
+      doc.setTextColor(...C.roseDeep);
+      doc.text('Tudo em Dia', PAGE_W / 2, PAGE_H - 30, { align: 'center' });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...C.mute);
+      doc.text('Consultoria Financeira para Empreendedores', PAGE_W / 2, PAGE_H - 24, { align: 'center' });
+
+      // Add footer to last page
+      addFooter();
+
+      // === Save ===
+      const safeName = (name || 'Empreendedor').replace(/[^a-zA-Z0-9À-ÿ ]/g, '').trim().replace(/\s+/g, '-');
+      const filename = `Diagnostico-Tudo-em-Dia-${safeName || 'relatorio'}.pdf`;
+      doc.save(filename);
+
+      if (btnText) btnText.innerHTML = '✓ PDF baixado';
+      setTimeout(() => {
+        if (btnText) btnText.innerHTML = originalText;
+        if (btn) btn.disabled = false;
+      }, 2500);
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      if (btnText) btnText.innerHTML = 'Erro. Tente novamente.';
+      setTimeout(() => {
+        if (btnText) btnText.innerHTML = originalText;
+        if (btn) btn.disabled = false;
+      }, 3000);
+    }
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => App.init());
+</script>
+</body>
+</html>
